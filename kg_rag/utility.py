@@ -392,5 +392,6 @@ def interactive(question, vectorstore, node_context_df, embedding_function_for_c
         output = llm_chain.run(context=node_context_extracted, question=question)
     elif "gpt" in llm_type:
         enriched_prompt = "Context: "+ node_context_extracted + "\n" + "Question: " + question
-        output = get_GPT_response(enriched_prompt, system_prompt, llm_type, llm_type, temperature=config_data["LLM_TEMPERATURE"])
+        chat_id=llm_type if openai.api_type == "azure" else None
+        output = get_GPT_response(enriched_prompt, system_prompt, llm_type, chat_id, temperature=config_data["LLM_TEMPERATURE"])        
         stream_out(output)
